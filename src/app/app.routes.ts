@@ -1,3 +1,8 @@
 import { Routes } from '@angular/router';
-
-export const routes: Routes = [];
+import { CounterPageComponent } from './counter/counter-page.component';
+export const routes: Routes = [
+  {
+    path: '',
+    component: CounterPageComponent
+  }
+];

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "repaso-angular19v2": {
+    "mi-proyecto-angular19": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/repaso-angular19v2",
+            "outputPath": "dist/mi-proyecto-angular19",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -32,14 +32,12 @@
               }
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
-            "scripts": [],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -69,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "repaso-angular19v2:build:production"
+              "buildTarget": "mi-proyecto-angular19:build:production"
             },
             "development": {
-              "buildTarget": "repaso-angular19v2:build:development"
+              "buildTarget": "mi-proyecto-angular19:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -103,5 +101,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "eeb777d3-855b-4f00-bbe0-f0045c68cef2"
   }
 }
