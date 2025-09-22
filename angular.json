@@ -5,11 +5,13 @@
   "projects": {
     "mi-proyecto-angular19": {
       "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        }
-      },
+      "styles": [
+        "node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "src/styles.scss"
+      ],
+      "scripts": [
+        "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+      ],
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -98,6 +100,9 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }
