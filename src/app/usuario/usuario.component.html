@@ -1,55 +1,97 @@
 <div class="container-fluid vh-100 d-flex justify-content-center align-items-center bg-light">
   <div class="card shadow-lg w-75">
     <div class="card-body text-center">
-        <div class="container py-4">
+      <div class="container py-4">
 
         <h2 class="mb-4">
-            Nombre: <span class="text-primary">{{ nombre }}</span>
+          Nombre: <span class="text-primary">{{ nombre() }}</span>
         </h2>
 
         <h2 class="mb-4">
-            Edad: <span class="text-success">{{ edad }}</span>
+          Edad: <span class="text-success">{{ edad() }}</span>
         </h2>
 
         <h2 class="mb-5">
-            Nombre capitalizado: 
-            <span class="text-danger">{{ nombreCapitalizado }}</span>
+          Nombre capitalizado: 
+          <span class="text-danger">{{ nombreCapitalizado() }}</span>
         </h2>
 
         <div class="mt-5 d-flex gap-3 flex-wrap">
-            <button class="btn btn-primary" (click)="abrirModalNombre()">
+          <button class="btn btn-primary" (click)="abrirModalNombre()">
             <i class="bi bi-brush-fill"></i> Cambiar nombre
-            </button>
+          </button>
 
-            <button class="btn btn-secondary" (click)="abrirModalEdad()">
+          <button class="btn btn-secondary" (click)="abrirModalEdad()">
             <i class="bi bi-brush"></i> Cambiar edad
-            </button>
+          </button>
 
-            <button class="btn btn-danger" (click)="abrirModalReset()">
+          <button class="btn btn-danger" (click)="abrirModalReset()">
             <i class="bi bi-arrow-clockwise"></i> Reset
-            </button>
+          </button>
+        </div>
+
+        <div class="container my-5">
+          <div class="card shadow-lg border-0">
+            <div class="card-body">
+              <h2 class="mb-4 text-center text-primary">Preguntas y Respuestas</h2>
+
+              <h4 class="text-dark">¿Qué es zone.js?</h4>
+              <p class="text-muted">
+                Es una librería utilizada por Angular para detectar automáticamente los cambios en la aplicación 
+                (change detection). Básicamente, hace un "parcheo" a funciones asíncronas como setTimeout, 
+                promesas, eventos del DOM, etc., para que Angular sepa cuándo actualizar la vista sin que el 
+                desarrollador tenga que hacerlo manualmente.
+              </p>
+
+              <h4 class="text-dark">¿Qué es Next.js?</h4>
+              <p class="text-muted">
+                Es un framework de React que añade funcionalidades como renderizado del lado del servidor (SSR), 
+                generación estática de páginas (SSG), rutas automáticas, optimización de imágenes y soporte para 
+                aplicaciones híbridas. Está enfocado en construir aplicaciones web rápidas y escalables con React.
+              </p>
+
+              <h4 class="text-dark">¿Qué diferencia hay en el uso de Next.js y zone.js?</h4>
+              <p class="text-muted">
+                - zone.js es una librería que Angular usa internamente para el manejo de detección 
+                de cambios en el frontend.  
+                - Next.js es un framework completo sobre React para desarrollar aplicaciones con 
+                renderizado en servidor, SEO optimizado y despliegue sencillo.  
+                En resumen: zone.js es un mecanismo de Angular; Next.js es un framework de React.
+              </p>
+
+              <h4 class="text-dark">¿Qué es zoneless Angular?</h4>
+              <p class="text-muted">
+                Es una nueva forma de trabajar en Angular (a partir de la versión 17+) donde ya no se depende de 
+                zone.js para la detección de cambios. En su lugar, se usan mecanismos más explícitos como 
+                signals y effect() para actualizar la interfaz. Esto mejora el rendimiento, 
+                elimina sobrecarga innecesaria y da más control al desarrollador.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal Genérico -->
+<!-- Modal Nombre -->
 <div class="modal fade show" tabindex="-1" 
-     [ngClass]="{'d-block': modalNombreAbierto}" 
-     *ngIf="modalNombreAbierto">
+     [ngClass]="{'d-block': modalNombreAbierto()}" 
+     *ngIf="modalNombreAbierto()">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content shadow-lg border-0">
       <div class="modal-header bg-primary text-white">
         <h5 class="modal-title">Cambiar nombre</h5>
         <button type="button" class="btn-close btn-close-white" 
-                (click)="modalNombreAbierto=false"></button>
+                (click)="modalNombreAbierto.set(false)"></button>
       </div>
       <div class="modal-body">
-        <input type="text" class="form-control" [(ngModel)]="nuevoNombre">
+        <input type="text" class="form-control" 
+               [ngModel]="nuevoNombre()" 
+               (ngModelChange)="nuevoNombre.set($event)">
       </div>
       <div class="modal-footer">
-        <button class="btn btn-outline-secondary" (click)="modalNombreAbierto=false">
+        <button class="btn btn-outline-secondary" (click)="modalNombreAbierto.set(false)">
           Cancelar
         </button>
         <button class="btn btn-primary" (click)="guardarNombre()">
@@ -62,20 +104,22 @@
 
 <!-- Modal Edad -->
 <div class="modal fade show" tabindex="-1" 
-     [ngClass]="{'d-block': modalEdadAbierto}" 
-     *ngIf="modalEdadAbierto">
+     [ngClass]="{'d-block': modalEdadAbierto()}" 
+     *ngIf="modalEdadAbierto()">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content shadow-lg border-0">
       <div class="modal-header bg-secondary text-white">
         <h5 class="modal-title">Cambiar edad</h5>
         <button type="button" class="btn-close btn-close-white" 
-                (click)="modalEdadAbierto=false"></button>
+                (click)="modalEdadAbierto.set(false)"></button>
       </div>
       <div class="modal-body">
-        <input type="number" class="form-control" [(ngModel)]="nuevaEdad">
+        <input type="number" class="form-control" 
+               [ngModel]="nuevaEdad()" 
+               (ngModelChange)="nuevaEdad.set($event)">
       </div>
       <div class="modal-footer">
-        <button class="btn btn-outline-secondary" (click)="modalEdadAbierto=false">
+        <button class="btn btn-outline-secondary" (click)="modalEdadAbierto.set(false)">
           Cancelar
         </button>
         <button class="btn btn-secondary" (click)="guardarEdad()">
@@ -88,20 +132,22 @@
 
 <!-- Modal Reset -->
 <div class="modal fade show" tabindex="-1" 
-     [ngClass]="{'d-block': modalResetAbierto}" 
-     *ngIf="modalResetAbierto">
+     [ngClass]="{'d-block': modalResetAbierto()}" 
+     *ngIf="modalResetAbierto()">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content shadow-lg border-0">
       <div class="modal-header bg-danger text-white">
         <h5 class="modal-title">Reset</h5>
         <button type="button" class="btn-close btn-close-white" 
-                (click)="modalResetAbierto=false"></button>
+                (click)="modalResetAbierto.set(false)"></button>
       </div>
       <div class="modal-body">
-        <input type="text" class="form-control" [(ngModel)]="nuevoNombreCapitalizado">
+        <input type="text" class="form-control" 
+               [ngModel]="nuevoNombreCapitalizado()" 
+               (ngModelChange)="nuevoNombreCapitalizado.set($event)">
       </div>
       <div class="modal-footer">
-        <button class="btn btn-outline-light text-dark" (click)="modalResetAbierto=false">
+        <button class="btn btn-outline-light text-dark" (click)="modalResetAbierto.set(false)">
           Cancelar
         </button>
         <button class="btn btn-danger" (click)="guardarReset()">
