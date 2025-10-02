@@ -1,0 +1,17 @@
+<div class="card shadow-sm p-3">
+    <h3 class="mb-3">Listado</h3>
+    <ol class="list-group list-group-numbered">
+    @for (character of characters; track character.id) {
+        @if (character.power > 4000) {
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <strong>Nombre:</strong> {{ character.name }}<br>
+            <strong [class.text-danger]="character.power > 8000" [class.text-primary]="character.power <= 8000">Poder: {{ character.power }}</strong>
+        </li>
+        }@else {
+        <li class="list-group-item d-flex align-items-center">
+            <strong>Poder demasiado bajo...</strong>
+        </li>
+        }
+    }
+    </ol>
+</div>

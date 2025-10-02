@@ -1,0 +1,29 @@
+<div class="col-12 col-sm-6 mb-4">
+  <div class="card shadow-sm p-3">
+    <h3 class="mb-3">Agregar: {{ name() }}</h3>
+    <div class="mb-3">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Nombre"
+        [value]="name()"
+        (input)="name.set(txtName.value)"
+        #txtName
+      />
+    </div>
+
+    <div class="mb-3">
+      <h3>Poder: {{ power() }}</h3>
+      <input
+        type="number"
+        class="form-control"
+        placeholder="Poder"
+        [value]="power()"
+        (input)="power.set(txtPower.valueAsNumber)"
+        #txtPower
+      />
+    </div>
+
+    <button class="btn btn-primary w-100" (click)="addCharacter()">Agregar</button>
+  </div>
+</div>
