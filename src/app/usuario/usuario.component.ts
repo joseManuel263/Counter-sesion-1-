@@ -1,7 +1,8 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, WritableSignal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from './../navbar/navbar.component';
+import { LocalStorageService } from '../services/local-storage.service';
 
 @Component({
   selector: 'app-usuario',
@@ -11,24 +12,36 @@ import { NavbarComponent } from './../navbar/navbar.component';
   styleUrls: ['./usuario.component.scss']
 })
 export class UsuarioComponent {
-  // datos principales
-  nombre = signal<string>('José');
-  edad = signal<number>(21);
 
-  // inputs temporales
+  nombre!: WritableSignal<string>;
+  edad!: WritableSignal<number>;
+
   nuevoNombre = signal<string>('');
   nuevaEdad = signal<number>(0);
   nuevoNombreCapitalizado = signal<string>('');
 
-  // variables de control (modales)
   modalNombreAbierto = signal<boolean>(false);
   modalEdadAbierto = signal<boolean>(false);
   modalResetAbierto = signal<boolean>(false);
 
-  // getter reactivo
   nombreCapitalizado = computed(() => this.nombre().toUpperCase());
 
-  // abrir modales
+  constructor(private localStorage: LocalStorageService) {
+    const storedNombre = this.localStorage.getItem<string>('usuarioNombre') ?? 'José';
+    const storedEdad = this.localStorage.getItem<number>('usuarioEdad') ?? 21;
+
+    this.nombre = signal<string>(storedNombre);
+    this.edad = signal<number>(storedEdad);
+
+    effect(() => {
+      this.localStorage.setItem('usuarioNombre', this.nombre());
+    });
+
+    effect(() => {
+      this.localStorage.setItem('usuarioEdad', this.edad());
+    });
+  }
+
   abrirModalNombre() {
     this.nuevoNombre.set(this.nombre());
     this.modalNombreAbierto.set(true);
@@ -44,7 +57,6 @@ export class UsuarioComponent {
     this.modalResetAbierto.set(true);
   }
 
-  // guardar cambios
   guardarNombre() {
     if (this.nuevoNombre().trim() !== '') {
       this.nombre.set(this.nuevoNombre());
